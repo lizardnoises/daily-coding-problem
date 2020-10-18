@@ -43,9 +43,25 @@ def excluded_products_div(a):
     return products
 
 """
-The brute force approach satisfies the bonus. There may be
-an approach yielding better runtime complexity using memoization with tables
-pivoted on the left and right side around each element.
+The brute force approach also satisfies the bonus. This approach is more
+efficient on larger arrays, yielding better runtime complexity by using
+memoization with tables pivoted on the left and right side around each element.
+O(n).
 """
 def excluded_products_bonus(a):
-    return excluded_products(a)
+    left_table = { -1: 1 }
+    right_table = { len(a): 1 }
+    b = [1] * len(a)
+    for i in range(len(a)):
+        b[i] = left(a, left_table, i - 1) * right(a, right_table, i + 1)
+    return b
+
+def left(a, table, i):
+    if i not in table:
+        table[i] = a[i] * left(a, table, i - 1)
+    return table[i]
+
+def right(a, table, i):
+    if i not in table:
+        table[i] = a[i] * right(a, table, i + 1)
+    return table[i]
