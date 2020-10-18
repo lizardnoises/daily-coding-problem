@@ -16,7 +16,8 @@ def hasSum(a, k):
 """
 Return True if any two elements in the array a sums to the value k.
 Python set is implemented as a hash table. Lookup is O(1) average, O(n) worst.
-So this implementation is O(n) average, O(n^2) worst.
+So this implementation is O(n) average, O(n^2) worst. A binary search tree
+could be used instead for O(nlogn) worst case.
 """
 def hasSumBonus(a, k):
     visited = set()
