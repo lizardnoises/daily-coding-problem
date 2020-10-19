@@ -51,17 +51,18 @@ O(n).
 def excluded_products_bonus(a):
     left_table = { -1: 1 }
     right_table = { len(a): 1 }
+
+    def left(i):
+        if i not in left_table:
+            left_table[i] = a[i] * left(i - 1)
+        return left_table[i]
+
+    def right(i):
+        if i not in right_table:
+            right_table[i] = a[i] * right(i + 1)
+        return right_table[i]
+
     b = [1] * len(a)
     for i in range(len(a)):
-        b[i] = left(a, left_table, i - 1) * right(a, right_table, i + 1)
+        b[i] = left(i - 1) * right(i + 1)
     return b
-
-def left(a, table, i):
-    if i not in table:
-        table[i] = a[i] * left(a, table, i - 1)
-    return table[i]
-
-def right(a, table, i):
-    if i not in table:
-        table[i] = a[i] * right(a, table, i + 1)
-    return table[i]
