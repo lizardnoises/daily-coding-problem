@@ -23,11 +23,13 @@ pair of substrings form the subproblem with the best solution.
 def edit_distance(s1, s2):
     """Returns the edit distance between strings s1 and s2."""
     def helper(i, j):
-        if i == 0:
+        if i < 0:
             return j + 1 # all dels
-        if j == 0:
+        if j < 0:
             return i + 1 # all adds
-        return min(helper(i-1, j-1) + (0 if s1[i] == s2[j] else 1), # sub
+        if s1[i] == s2[j]:
+            return helper(i-1, j-1)
+        return min(helper(i-1, j-1) + 1, # sub
                    helper(i, j-1) + 1, # add
                    helper(i-1, j) + 1) # del
     return helper(len(s1)-1, len(s2)-1)
@@ -35,20 +37,21 @@ def edit_distance(s1, s2):
 def edit_distance_memoized(s1, s2):
     """
     Returns the edit distance between strings s1 and s2. This recursive
-    relation has a lot of overlap, so memoization is used to improve runtime
-    efficiency.
+    relation has a lot of overlap, so memoization improves runtime efficiency.
     """
     memo = {}
     def helper(i, j):
         if (i, j) in memo:
             return memo[(i, j)]
-        if i == 0:
+        if i < 0:
             return j + 1 # all dels
-        if j == 0:
+        if j < 0:
             return i + 1 # all adds
-        min_edits = min(helper(i-1, j-1) + (0 if s1[i] == s2[j] else 1), # sub
-                        helper(i, j-1) + 1, # add
-                        helper(i-1, j) + 1) # del
-        memo[(i, j)] = min_edits
-        return min_edits
+        if s1[i] == s2[j]:
+            memo[(i, j)] = helper(i-1, j-1)
+        else:
+            memo[(i, j)] = min(helper(i-1, j-1) + 1, # sub
+                               helper(i, j-1) + 1, # add
+                               helper(i-1, j) + 1) # del
+        return memo[(i, j)]
     return helper(len(s1)-1, len(s2)-1)
