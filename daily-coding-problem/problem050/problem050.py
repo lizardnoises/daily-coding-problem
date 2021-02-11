@@ -1,6 +1,7 @@
 __author__ = 'Sean Moore'
 
 r'''
+Problem #50 [Easy]
 This problem was asked by Microsoft.
 
 Suppose an arithmetic expression is given as a binary tree. Each leaf is an

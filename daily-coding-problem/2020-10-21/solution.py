@@ -23,4 +23,3 @@ def count_decodes(s):
             return 2
         return 1
     return count_decodes(s[1:]) + count_decodes(s[2:])
-    
